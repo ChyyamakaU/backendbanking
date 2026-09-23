@@ -28,7 +28,7 @@ const registerNew = async (req, res) => {
         email,
         phone,
         password: hashedPassword,
-        accountNumber: Math.random() * 10,
+        accountNumber: string(1000000000+bankUsers.length+1),
         role
     }
 

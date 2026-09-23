@@ -11,7 +11,6 @@ const validateRegister = (req, res, next) => {
     });
   }
 
- 
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   if (!emailPattern.test(email)) {
@@ -22,7 +21,7 @@ const validateRegister = (req, res, next) => {
   }
 
 
-  const passwordPattern =
+const passwordPattern =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{6,}$/;
 
   if (!passwordPattern.test(password)) {
