@@ -2,7 +2,7 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
-const bankUsers = [];
+const bankUsers = [require("../data")];
 
 const registerNew = async (req, res) => {
 
@@ -22,15 +22,14 @@ const registerNew = async (req, res) => {
     );
 
     const newUser = {
-
-        id: bankUsers.length + 1,
-        fullName,
-        email,
-        phone,
-        password: hashedPassword,
-        accountNumber: string(1000000000+bankUsers.length+1),
-        role
-    }
+    id: bankUsers.length + 1,
+    fullName,
+    email,
+    phone,
+    password: hashedPassword,
+    accountNumber: String(1000000000 + bankUsers.length + 1),
+    role
+};
 
     bankUsers.push(newUser)
     console.log(bankUsers)
