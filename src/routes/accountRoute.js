@@ -4,10 +4,11 @@ const express = require("express");
 
 const { viewBalance } = require("../controllers/accountController");
 
-const authenticate = require("../middleware/authenticate");
+const authentication = require("../middleware/authentication");
 
 const router = express.Router();
 
-router.get("/balance", authenticate, viewBalance);
+router.get("/balance", authentication, viewBalance);
+
 
 module.exports = router;

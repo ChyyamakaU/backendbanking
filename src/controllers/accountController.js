@@ -4,7 +4,7 @@ const bankUsers = require("../data");
 
 const viewBalance = async (req, res) => {
 
-    const user = bankUsers.find(user => user.id === req.user.id);
+    const user = bankUsers.find(user => user.accountNumber === req.user.accountNumber);
 
     if (!user) {
         return res.status(404).json({
