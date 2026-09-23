@@ -1,19 +1,23 @@
 /* eslint-disable no-undef */
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
 
-const bankUsers = [require("../data")];
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+const bankUsers = require("../data");
 
 const registerNew = async (req, res) => {
 
-    const { fullName, email, phone, password, role } = req.body
+    const { fullName, email, phone, password, role } = req.body;
 
-    const existingUser = bankUsers.find(users => users.email === email)
+    const existingUser = bankUsers.find(
+        user => user.email === email
+    );
+
     if (existingUser) {
-        return res.json({
+        return res.status(409).json({
             status: "error",
             message: "This email already exists"
-        })
+        });
     }
 
     const hashedPassword = await bcrypt.hash(
@@ -22,49 +26,53 @@ const registerNew = async (req, res) => {
     );
 
     const newUser = {
-    id: bankUsers.length + 1,
-    fullName,
-    email,
-    phone,
-    password: hashedPassword,
-    balance: 0,
-    accountNumber: String(1000000000 + bankUsers.length + 1),
-    role
-};
+        id: bankUsers.length + 1,
+        fullName,
+        email,
+        phone,
+        password: hashedPassword,
+        balance: 0,
+        accountNumber: String(1000000000 + bankUsers.length + 1),
+        role
+    };
 
-    bankUsers.push(newUser)
-    console.log(bankUsers)
+    bankUsers.push(newUser);
+
+    console.log(bankUsers);
 
     return res.status(201).json({
-        status: "sucessful",
+        status: "successful",
         message: "You have registered successfully"
-    })
+    });
+};
 
-}
 
 const loginUser = async (req, res) => {
 
-    const { email, password } = req.body
+    const { email, password } = req.body;
 
-    const existingUser = bankUsers.find(users => users.email === email)
+    const existingUser = bankUsers.find(
+        user => user.email === email
+    );
+
     if (!existingUser) {
-        return res.status(404).json({
+        return res.status(401).json({
             status: "error",
-            message: "This email already exists"
-        })
+            message: "Invalid email or password"
+        });
     }
 
-
     const passwordMatch = await bcrypt.compare(
-    password,
-    existingUser.password
-  );
+        password,
+        existingUser.password
+    );
 
-   if(!passwordMatch){
-    return res.status(409).json({
-        status: "error",
-        message: "incorrect password"
-    })   }
+    if (!passwordMatch) {
+        return res.status(401).json({
+            status: "error",
+            message: "Invalid email or password"
+        });
+    }
 
     const token = jwt.sign(
         {
@@ -78,13 +86,12 @@ const loginUser = async (req, res) => {
         }
     );
 
-    return res.status(201).json({
-        status: "sucessful",
+    return res.status(200).json({
+        status: "successful",
         message: "You have been successfully logged in",
         token
     });
-
-}
+};
 
 
 module.exports = {

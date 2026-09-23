@@ -1,9 +1,9 @@
-const users =[
+const bankUsers =[
 
 
 ]
 
 // eslint-disable-next-line no-undef
 module.exports = 
-    users
+    bankUsers
   ;

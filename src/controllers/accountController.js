@@ -4,7 +4,9 @@ const bankUsers = require("../data");
 
 const viewBalance = async (req, res) => {
 
-    const user = bankUsers.find(user => user.accountNumber === req.user.accountNumber);
+    const user = bankUsers.find(
+        user => user.id === req.user.id
+    );
 
     if (!user) {
         return res.status(404).json({
@@ -15,7 +17,7 @@ const viewBalance = async (req, res) => {
 
     return res.status(200).json({
         status: "successful",
-        message: "Account balance retrieved successfully",
+        message: "Your account balance was retrieved successfully",
         accountNumber: user.accountNumber,
         balance: user.balance
     });
